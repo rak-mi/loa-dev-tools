@@ -1,0 +1,6 @@
+market_data/*.png
+env/*
+
+__pycache__/
+*.py[cod]
+*$py.class
