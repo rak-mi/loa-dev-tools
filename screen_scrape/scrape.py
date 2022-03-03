@@ -104,12 +104,12 @@ def get_price_list(price_list):
     reverse = cv2.bitwise_not(dilate_img)
 
     # for testing, below code will show which section is being cropped
-    cv2.imshow('dilate', reverse)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+    #cv2.imshow('dilate', reverse)
+    #cv2.waitKey(0)
+    #cv2.destroyAllWindows()
 
     avg_item_list = pytesseract.image_to_data(reverse , config="--oem 3 --psm 6", lang = 'eng', output_type=pytesseract.Output.DICT)
-    print (avg_item_list['text'])
+    #print (avg_item_list['text'])
     price_item_list = []
     for item in avg_item_list['text']:
         if item != '':
