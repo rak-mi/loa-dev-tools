@@ -8,11 +8,7 @@ import datetime
 
 
 def get_aution_house_prices(screenshot_path, descriptor, file_date):
-    try:
-        img = cv2.imread(screenshot_path)
-    except Exception as e:
-        print(e)
-        return None
+    img = cv2.imread(screenshot_path)
     item_list = img[409:1173, 1246:1641]
     avg_list = img[409:1173, 1651:1828]
     recent_list = img[409:1173, 1894:2044]
@@ -21,28 +17,20 @@ def get_aution_house_prices(screenshot_path, descriptor, file_date):
 
     response = {}
 
-    try:
-        items = get_items(item_list)
-        avg = get_price_list(avg_list)
-        recent = get_price_list(recent_list)
-        low = get_price_list(lowest_list)
-        #remain = get_price_list(remaining_list)
-    except Exception as e:
-        print(e)
-        return None
+    items = get_items(item_list)
+    avg = get_price_list(avg_list)
+    recent = get_price_list(recent_list)
+    low = get_price_list(lowest_list)
+    #remain = get_price_list(remaining_list)
 
     index = 0
     for item in items:
-        try:
-            response[item] = {}
-            response[item]['Average Price'] = avg[index]
-            response[item]['Recent Price'] = recent[index]
-            response[item]['Lowest Price'] = low[index]
-            response[item]['Remaining Items'] = 100
-            index += 1
-        except Exception as e:
-            print(e)
-            return None
+        response[item] = {}
+        response[item]['Average Price'] = avg[index]
+        response[item]['Recent Price'] = recent[index]
+        response[item]['Lowest Price'] = low[index]
+        response[item]['Remaining Items'] = 100
+        index += 1
 
         # datetime object containing current date and time
     
@@ -54,62 +42,36 @@ def get_aution_house_prices(screenshot_path, descriptor, file_date):
 
 
 def get_mari_prices(screenshot_path, descriptor, mari_slot):
-    try:
-        img = cv2.imread(screenshot_path)
-    except Exception as e:
-        print(e)
-        return None
+    img = cv2.imread(screenshot_path)
     item_list = img[591:1291, 2295:2749]
     price_list = img[642:1283, 2785:2881]
 
-    try:
-        items = get_items(item_list)
-        prices = get_price_list(price_list)
-    except Exception as e:
-        print(e)
-        return None
+    items = get_items(item_list)
+    prices = get_price_list(price_list)
 
     #load mari json conversion
-    try:
-        with open('json_data/translate-mari-abrivation.json', 'r') as outfile:
-            mari_data = json.load(outfile)
-    except Exception as e:
-        print(e)
-        return None
+    with open('json_data/translate-mari-abrivation.json', 'r') as outfile:
+        mari_data = json.load(outfile)
 
     data = {}
     data[mari_slot] = {}
     for x in range (0,6):
-        try:
-            item = items[x] + ' - ' + str(int(prices[x]))
-            mari_item = mari_data[item]['name']
-            mari_price = mari_data[item]['price']
-            mari_ammount = mari_data[item]['ammount']
+        item = items[x] + ' - ' + str(int(prices[x]))
+        mari_item = mari_data[item]['name']
+        mari_price = mari_data[item]['price']
+        mari_ammount = mari_data[item]['ammount']
 
-            data[mari_slot][mari_item] = { "ammount": mari_ammount, "price": mari_price }
-        except Exception as e:
-            print(e)
-            return None
+        data[mari_slot][mari_item] = { "ammount": mari_ammount, "price": mari_price }
 
     return data
 
 
 def get_currency_exchange(screenshot_path, descriptor):
-    try:
-        img = cv2.imread(screenshot_path)
-    except Exception as e:
-        print(e)
-        return None
-
+    img = cv2.imread(screenshot_path)
     price_list = img[403:743, 1896:1972]
     prices = get_currency_list(price_list)
-
-    try:
-        avg_price = sum(prices) / len(prices)
-        return (avg_price)
-    except Exception as e:
-        print(e)
-        return None
+    avg_price = sum(prices) / len(prices)
+    return (avg_price)
 
 def get_items(item_list):
     inv_item_list = cv2.bitwise_not(item_list)
