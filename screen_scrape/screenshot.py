@@ -4,12 +4,12 @@ from ctypes import windll
 from PIL import Image
 from datetime import datetime
 
-def take_screenshot_of_window(window_name):
+def take_screenshot_of_window(type,type_2,mode):
     hwnd = win32gui.FindWindow(None, 'LOST ARK (64-bit, DX11) v.2.0.2.1')
 
     # datetime object containing current date and time
     now = datetime.now()
-    dt_string = now.strftime("%d%m%Y-%H")
+    dt_string = now.strftime("%d%m%Y-%H%M")
  
     left, top, right, bot = win32gui.GetWindowRect(hwnd)
     #change dimensions to match your resolution
@@ -41,6 +41,6 @@ def take_screenshot_of_window(window_name):
     win32gui.ReleaseDC(hwnd, hwndDC)
 
     if result == 1:
-        im.save('market_data/' + dt_string + '-screenshot.png')
+        im.save('screenshots/' + type + '/'  + type_2 + '-' + mode + '-' + dt_string + '.png')
 
     return('market_data/' + dt_string + '-screenshot.png')
