@@ -9,25 +9,23 @@ import datetime
 
 def get_aution_house_prices(screenshot_path, descriptor, file_date):
     img = cv2.imread(screenshot_path)
-    item_list = img[409:1173, 1246:1641]
-    avg_list = img[409:1173, 1651:1828]
-    recent_list = img[409:1173, 1894:2044]
-    lowest_list = img[409:1173, 2101:2260]
-    #remaining_list = img[409:1173, 2314:2597]
+    item_list = img[306:870, 608:887]
+    avg_list = img[306:870, 919:1040]
+    recent_list = img[306:870, 1085:1201]
+    lowest_list = img[306:870, 1244:1362]
+    #remaining_list = img[306:870, 1407:1622]
 
     response = {}
 
     
     items = get_items(item_list)
-    avg = get_price_list(avg_list)
-    if len(avg) != len(items):
-        avg = get_price_list2(avg_list)
-    recent = get_price_list(recent_list)
-    if len(recent) != len(items):
-        recent = get_price_list2(recent_list)
-    low = get_price_list(lowest_list)
-    if len(low) != len(items):
-        low = get_price_list2(lowest_list)
+    print(items)
+    avg = get_price_list2(avg_list)
+    
+    recent = get_price_list2(recent_list)
+    
+    low = get_price_list2(lowest_list)
+    
 
     #remain = get_price_list(remaining_list)
 
@@ -82,14 +80,21 @@ def get_currency_exchange(screenshot_path, descriptor):
     return (avg_price)
 
 def get_items(item_list):
+    """ gray = cv2.cvtColor(price_list, cv2.COLOR_BGR2GRAY)
+    kernel = np.ones((3, 2), 'uint8')
+    dilate_img = cv2.dilate(gray, kernel, iterations=1)
+    reverse = cv2.bitwise_not(dilate_img) """
+
     inv_item_list = cv2.bitwise_not(item_list)
     gray_item_list = cv2.cvtColor(inv_item_list, cv2.COLOR_BGR2GRAY)
+
+    
     market_items = pytesseract.image_to_string(gray_item_list , config="--oem 3 --psm 4", lang = 'eng')
 
     #for testing, below code will show which section is being cropped
-    #cv2.imshow('dilate', reverse)
-    #cv2.waitKey(0)
-    #cv2.destroyAllWindows()
+    cv2.imshow('dilate', gray_item_list)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
 
 
     market_list = market_items.split('\n')
@@ -109,48 +114,56 @@ def get_items(item_list):
 
 def get_price_list(price_list):
     gray = cv2.cvtColor(price_list, cv2.COLOR_BGR2GRAY)
-    kernel = np.ones((5, 3), 'uint8')
+    kernel = np.ones((3, 2), 'uint8')
     dilate_img = cv2.dilate(gray, kernel, iterations=1)
     reverse = cv2.bitwise_not(dilate_img)
 
     # for testing, below code will show which section is being cropped
-    #cv2.imshow('dilate', reverse)
-    #cv2.waitKey(0)
-    #cv2.destroyAllWindows()
+    cv2.imshow('dilate', reverse)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
 
     avg_item_list = pytesseract.image_to_data(reverse , config="--oem 3 --psm 6", lang = 'eng', output_type=pytesseract.Output.DICT)
-    #print (avg_item_list['text'])
+    print (avg_item_list['text'])
     price_item_list = []
     for item in avg_item_list['text']:
         if item != '':
             if item == 'i' or item == 'I':
                 price_item_list.append(1.0)
+            elif item == '1a':
+                price_item_list.append(12.0)      
+            elif item == '5B':
+                price_item_list.append(58.0)          
             else:
                 price_item_list.append(float(item.replace(',', '')))
-    
+    print(price_item_list)
     return price_item_list
 
 def get_price_list2(price_list):
     gray = cv2.cvtColor(price_list, cv2.COLOR_BGR2GRAY)
-    kernel = np.ones((4, 2), 'uint8')
+    kernel = np.ones((3, 2), 'uint8')
     dilate_img = cv2.dilate(gray, kernel, iterations=1)
     reverse = cv2.bitwise_not(dilate_img)
 
     # for testing, below code will show which section is being cropped
-    #cv2.imshow('dilate', reverse)
-    #cv2.waitKey(0)
-    #cv2.destroyAllWindows()
+    cv2.imshow('dilate', reverse)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
 
     avg_item_list = pytesseract.image_to_data(reverse , config="--oem 3 --psm 6", lang = 'eng', output_type=pytesseract.Output.DICT)
-    #print (avg_item_list['text'])
+    print (avg_item_list['text'])
     price_item_list = []
     for item in avg_item_list['text']:
         if item != '':
             if item == 'i' or item == 'I':
                 price_item_list.append(1.0)
+            elif item == '1a':
+                price_item_list.append(12.0)      
+            elif item == '5B':
+                price_item_list.append(58.0)          
             else:
                 price_item_list.append(float(item.replace(',', '')))
-    
+    print(price_item_list)
     return price_item_list
 
 def get_currency_list(price_list):

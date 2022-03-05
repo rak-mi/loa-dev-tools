@@ -6,7 +6,7 @@ def upload_market_to_db(market_data, db_url, date_time):
 
     db=client.market_data
     # Issue the serverStatus command and print the results
-    serverStatusResult=db.command("serverStatus")
+    # serverStatusResult=db.command("serverStatus")
 
     for item in market_data:
         #Step 3: Insert business object directly into MongoDB via insert_one

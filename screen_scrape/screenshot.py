@@ -13,8 +13,8 @@ def take_screenshot_of_window(type,type_2,mode):
  
     left, top, right, bot = win32gui.GetWindowRect(hwnd)
     #change dimensions to match your resolution
-    w = 3440
-    h = 1440
+    w = 1920
+    h = 1080
 
     hwndDC = win32gui.GetWindowDC(hwnd)
     mfcDC  = win32ui.CreateDCFromHandle(hwndDC)

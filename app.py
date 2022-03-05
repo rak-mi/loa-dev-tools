@@ -35,7 +35,7 @@ for enhancement_file in enhancement_file_list:
         continue
 
 mari_file_list = glob.glob("screenshots\\mari\\*.png")
-#process each mari screenshot and upload to db
+""" #process each mari screenshot and upload to db
 for mari_shop_file in mari_file_list:
     try:
         date_time = (mari_shop_file[-17:-4])
@@ -58,4 +58,4 @@ for currency_file in currency_file_list:
     except Exception as e:
         print("Error processing screenshot: ", currency_file)
         print(e)
-        continue
+        continue """
