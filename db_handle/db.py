@@ -18,7 +18,7 @@ def upload_market_to_db(market_data, db_url, date_time):
         if hasattr(result,'inserted_id'):
             print("Inserted the document", result.inserted_id)
         else:
-            print("Updated ")
+            print("Updated " + str(item))
 
     client.close()
 
@@ -58,7 +58,7 @@ def upload_mari_to_db(mari_shop, db_url, id):
         if hasattr(result,'inserted_id'):
             print("Inserted the document", result.inserted_id)
         else:
-            print("Updated ")
+            print("Updated " + str(item))
         
     client.close()
 
@@ -78,14 +78,14 @@ def upload_currency_to_db(currency_data, db_url, date_time):
     if hasattr(result,'inserted_id'):
         print("Inserted the document", result.inserted_id)
     else:
-            print("Updated ")
+            print("Updated " + str(currency_data))
 
     client.close()
 
 def get_mari_prices_from_db(db_url, id):
     client = pymongo.MongoClient(db_url)
     db = client.mari_shop
-    collection = db['upgrade']
+    collection = db['enhancement']
     result = collection.find_one({'_id': id})
     return result
 

@@ -2,16 +2,16 @@ from screen_scrape import screenshot
 
 import argparse
 
-parser = argparse.ArgumentParser(description='Process some integers.')
+parser = argparse.ArgumentParser(description='nah')
 
 parser.add_argument('type1', metavar='t', type=str,
-                    help='an integer for the accumulator')
+                    help='nah')
 
 parser.add_argument('type2', metavar='p', type=str, 
-                    help='an integer for the accumulator')
+                    help='nah')
 
 parser.add_argument('mode', metavar='m', type=str, 
-                    help='an integer for the accumulator')
+                    help='nah')
 
 args = parser.parse_args()
 

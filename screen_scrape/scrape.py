@@ -17,10 +17,18 @@ def get_aution_house_prices(screenshot_path, descriptor, file_date):
 
     response = {}
 
+    
     items = get_items(item_list)
     avg = get_price_list(avg_list)
+    if len(avg) != len(items):
+        avg = get_price_list2(avg_list)
     recent = get_price_list(recent_list)
+    if len(recent) != len(items):
+        recent = get_price_list2(recent_list)
     low = get_price_list(lowest_list)
+    if len(low) != len(items):
+        low = get_price_list2(lowest_list)
+
     #remain = get_price_list(remaining_list)
 
     index = 0
@@ -50,7 +58,7 @@ def get_mari_prices(screenshot_path, descriptor, mari_slot):
     prices = get_price_list(price_list)
 
     #load mari json conversion
-    with open('json_data/translate-mari-abrivation.json', 'r') as outfile:
+    with open('json_data/translate-mari-abriviation.json', 'r') as outfile:
         mari_data = json.load(outfile)
 
     data = {}
@@ -83,6 +91,7 @@ def get_items(item_list):
     #cv2.waitKey(0)
     #cv2.destroyAllWindows()
 
+
     market_list = market_items.split('\n')
     item_list = []
     index = -1
@@ -95,6 +104,7 @@ def get_items(item_list):
             index += 1
             item_list.append(item)
 
+    #print(item_list)
     return item_list
 
 def get_price_list(price_list):
@@ -120,6 +130,28 @@ def get_price_list(price_list):
     
     return price_item_list
 
+def get_price_list2(price_list):
+    gray = cv2.cvtColor(price_list, cv2.COLOR_BGR2GRAY)
+    kernel = np.ones((4, 2), 'uint8')
+    dilate_img = cv2.dilate(gray, kernel, iterations=1)
+    reverse = cv2.bitwise_not(dilate_img)
+
+    # for testing, below code will show which section is being cropped
+    #cv2.imshow('dilate', reverse)
+    #cv2.waitKey(0)
+    #cv2.destroyAllWindows()
+
+    avg_item_list = pytesseract.image_to_data(reverse , config="--oem 3 --psm 6", lang = 'eng', output_type=pytesseract.Output.DICT)
+    #print (avg_item_list['text'])
+    price_item_list = []
+    for item in avg_item_list['text']:
+        if item != '':
+            if item == 'i' or item == 'I':
+                price_item_list.append(1.0)
+            else:
+                price_item_list.append(float(item.replace(',', '')))
+    
+    return price_item_list
 
 def get_currency_list(price_list):
     gray = cv2.cvtColor(price_list, cv2.COLOR_BGR2GRAY)

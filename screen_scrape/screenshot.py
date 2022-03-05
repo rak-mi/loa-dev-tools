@@ -5,7 +5,7 @@ from PIL import Image
 from datetime import datetime
 
 def take_screenshot_of_window(type,type_2,mode):
-    hwnd = win32gui.FindWindow(None, 'LOST ARK (64-bit, DX11) v.2.0.2.1')
+    hwnd = win32gui.FindWindow(None, 'LOST ARK (64-bit, DX11) v.2.0.3.1')
 
     # datetime object containing current date and time
     now = datetime.now()

@@ -1,11 +1,12 @@
 from locale import currency
 from pprint import PrettyPrinter
 from screen_scrape import scrape, auto_utils
-from db_handle import db
+from db_handle import db, analysis
 import json
 import configparser
 import datetime
 import glob
+
 
 #Open up config file and get the db_url
 config = configparser.ConfigParser()
