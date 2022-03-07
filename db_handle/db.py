@@ -1,4 +1,5 @@
 import pymongo
+import datetime
 
 def upload_market_to_db(market_data, db_url, date_time):
 
@@ -11,8 +12,9 @@ def upload_market_to_db(market_data, db_url, date_time):
     for item in market_data:
         #Step 3: Insert business object directly into MongoDB via insert_one
         collection = db[item]
-        data = {'_id': date_time, 'date': date_time, 'avg_price': market_data[item]['Average Price'], 'recent_price': market_data[item]['Recent Price'], 'lowest_price': market_data[item]['Lowest Price'], 'remaining_items': market_data[item]['Remaining Items']}
-
+        iso_date = datetime.datetime.strptime(date_time + "-0500", '%d%m%Y-%H%M%z')
+        epoch_time = iso_date.timestamp()
+        data = {'_id': date_time, 'date': date_time, 'iso_date' : iso_date, 'epoch' : epoch_time, 'avg_price': market_data[item]['Average Price'], 'recent_price': market_data[item]['Recent Price'], 'lowest_price': market_data[item]['Lowest Price'], 'remaining_items': market_data[item]['Remaining Items']}
         result=collection.update_one({'_id': date_time}, {'$set': data}, upsert=True)
             #Step 4: Print to the console the ObjectID of the new document
         if hasattr(result,'inserted_id'):
