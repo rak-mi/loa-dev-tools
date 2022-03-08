@@ -10,7 +10,6 @@ def move_mouse(x,y):
     pos_y = int(y)
 
     mouse = Controller()
-
     mouse.position = (pos_x, pos_y)
 
     # Press and release
@@ -19,14 +18,8 @@ def move_mouse(x,y):
 
 
 parser = argparse.ArgumentParser(description='nah')
-
-parser.add_argument('x', metavar='t', type=str,
-                    help='nah')
-
-parser.add_argument('y', metavar='p', type=str, 
-                    help='nah')
-
-
+parser.add_argument('-x', metavar='t', type=str, help='X position')
+parser.add_argument('-y', metavar='p', type=str, help='Y position')
 args = parser.parse_args()
 
 move_mouse(args.x, args.y)
