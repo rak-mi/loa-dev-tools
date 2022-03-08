@@ -1,0 +1,33 @@
+{
+    "T3" :{
+        "Destruction Stone Crystal (10)" : 3,
+        "Guardian Stone Crystal (10)" : 4,
+        "Honor Shard Pouch (S)" : 5,
+        "Honor Shard Pouch (M)" : 6,
+        "Honor Shard Pouch (L)" : 7,
+        "Honor Leapstone" : 8,
+        "Great Honor Leapstone" : 9,
+        "Solar Grace" : 10,
+        "Solar Blessing" : 11,
+        "Solar Protection" : 12,
+        "Simple Oreha Fusion Material" : 13,
+        "Basic Oreha Fusion Material" : 14
+    },
+
+    "T2" : {
+        "Destruction Stone (10)" : 17,
+        "Guardian Stone (10)" : 18,
+        "Life Shard Pouch (S)" : 19, 
+        "Life Leapstone" : 20,     
+        "Moon's Breath" : 21
+        
+    },
+
+    "T1" :{
+        "Destruction Stone Fragment (10)" :24,
+        "Guardian Stone Fragment (10)" : 25,
+        "Harmony Shard Pouch (S)" : 26,
+        "Harmony Leapstone" : 27,
+        "Star's Breath" : 28
+    }
+}
