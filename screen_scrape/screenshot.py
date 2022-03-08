@@ -8,13 +8,13 @@ def take_screenshot_of_window(type,type_2,mode):
     hwnd = win32gui.FindWindow(None, 'LOST ARK (64-bit, DX11) v.2.0.3.1')
 
     # datetime object containing current date and time
-    now = datetime.now()
+    now = datetime.datetime.now(datetime.timezone.utc)
     dt_string = now.strftime("%d%m%Y-%H%M")
  
     left, top, right, bot = win32gui.GetWindowRect(hwnd)
     #change dimensions to match your resolution
-    w = 1920
-    h = 1080
+    w = 3440
+    h = 1440
 
     hwndDC = win32gui.GetWindowDC(hwnd)
     mfcDC  = win32ui.CreateDCFromHandle(hwndDC)
