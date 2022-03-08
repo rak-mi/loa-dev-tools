@@ -29,6 +29,9 @@ def get_aution_house_prices(screenshot_path, descriptor, file_date, w, h):
 
     index = 0
     for item in items:
+        if avg[index] == None or recent[index] == None or low[index] == None:
+            index += 1
+            continue
         response[item] = {}
         response[item]['Average Price'] = avg[index]
         response[item]['Recent Price'] = recent[index]
@@ -96,9 +99,12 @@ def get_price_list(price_list, dilate1, dilate2):
             elif item == '1a':
                 price_item_list.append(12.0)      
             elif item == '5B':
-                price_item_list.append(58.0)          
+                price_item_list.append(58.0)
             else:
-                price_item_list.append(float(item.replace(',', '')))
+                try:
+                    price_item_list.append(float(item.replace(',', '')))
+                except Exception as e:
+                    price_item_list.append(None)
 
     #print(price_item_list)
     return price_item_list
