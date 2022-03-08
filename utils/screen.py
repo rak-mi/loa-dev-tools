@@ -1,4 +1,4 @@
-from screen_scrape import screenshot
+from utils import screenshot
 
 import argparse
 

@@ -15,7 +15,7 @@ scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/aut
 creds = ServiceAccountCredentials.from_json_keyfile_name('sheets-api.json', scope)
 
 #load json postions from json file
-with open('sheet-positions.json') as json_file:
+with open('json_data\sheet-positions.json') as json_file:
     sheet_positions = json.load(json_file)
 
 # authorize the clientsheet 
