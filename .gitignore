@@ -9,3 +9,9 @@ json_data/*
 conf.ini
 
 screenshots/*
+
+*.json
+!sheet-positions.json
+!json_data/resolution.json
+
+test.py
