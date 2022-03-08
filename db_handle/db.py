@@ -91,17 +91,20 @@ def get_mari_prices_from_db(db_url, id):
     result = collection.find_one({'_id': id})
     return result
 
-def get_currency_exchange_from_db(db_url, id):
+def get_currency_exchange_from_db(db_url):
     client = pymongo.MongoClient(db_url)
     db = client.mari_shop
     collection = db['currency_exchange']
-    result = collection.find_one({'_id': id})
-    return result
+    results = collection.find().sort('date', -1).limit(1)
+    for result in results:
+        return (result)
 
-def get_ah_price_from_db(db_url, name, id):
+def get_ah_price_from_db(db_url, name):
     client = pymongo.MongoClient(db_url)
     db = client.market_data
     collection = db[name]
-    result = collection.find_one({'_id': id})
-    price = result['lowest_price']
-    return float(price)
+    results = collection.find().sort('date', -1).limit(1)
+    for result in results:
+        price = result['lowest_price']
+        date = result['date']
+        return (price, date)
