@@ -61,8 +61,6 @@ def get_ah_price_from_db(db_url, name):
     collection = db[name]
     results = collection.find().sort('date', -1).limit(1)
     for result in results:
-        price = result['lowest_price']
-        date = result['date']
-        return (price, date)
+        return result
 
     client.close()
