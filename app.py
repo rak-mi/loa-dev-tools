@@ -6,6 +6,7 @@ import json
 import configparser
 import datetime
 import glob
+import argparse
 
 
 #Open up config file and get the db_url
@@ -13,6 +14,14 @@ config = configparser.ConfigParser()
 config.read('conf.ini')
 db_url = config['mongo-db']['url']
 
+parser = argparse.ArgumentParser(description='nah')
+
+parser.add_argument('width', metavar='w', type=str,
+                    help='nah')
+
+parser.add_argument('height', metavar='h', type=str, 
+                    help='nah')
+args = parser.parse_args()
 #list of screenshots to process
 
 mari_shop_list = ['mari_shop_honing', 'mari_shop_tradeskill']
@@ -26,7 +35,7 @@ for enhancement_file in enhancement_file_list:
         enhancement = (enhancement_file[-36:-18])
         date_time = (enhancement_file[-17:-4])
         
-        response = scrape.get_aution_house_prices(enhancement_file, enhancement, date_time)
+        response = scrape.get_aution_house_prices(enhancement_file, enhancement, date_time, args.width, args.height)
         db.upload_market_to_db(response, db_url, date_time)
         index += 1
     except Exception as e:

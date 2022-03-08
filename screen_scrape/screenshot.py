@@ -2,26 +2,21 @@ import win32gui
 import win32ui
 from ctypes import windll
 from PIL import Image
-from datetime import datetime
+import datetime
 
-def take_screenshot_of_window(type,type_2,mode):
+def take_screenshot_of_window(type,type_2,mode, w, h):
     hwnd = win32gui.FindWindow(None, 'LOST ARK (64-bit, DX11) v.2.0.3.1')
 
     # datetime object containing current date and time
     now = datetime.datetime.now(datetime.timezone.utc)
     dt_string = now.strftime("%d%m%Y-%H%M")
- 
-    left, top, right, bot = win32gui.GetWindowRect(hwnd)
-    #change dimensions to match your resolution
-    w = 3440
-    h = 1440
 
     hwndDC = win32gui.GetWindowDC(hwnd)
     mfcDC  = win32ui.CreateDCFromHandle(hwndDC)
     saveDC = mfcDC.CreateCompatibleDC()
 
     saveBitMap = win32ui.CreateBitmap()
-    saveBitMap.CreateCompatibleBitmap(mfcDC, w, h)
+    saveBitMap.CreateCompatibleBitmap(mfcDC, int(w), int(h))
 
     saveDC.SelectObject(saveBitMap)
 

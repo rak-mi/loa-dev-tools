@@ -1,0 +1,59 @@
+{
+    "3440 x 1440" :{
+        "width" : 3440,
+        "height" : 1440,
+        "name" : "1440p Ultra Wide",
+        "market_y" : {
+            "start": 409,
+            "end": 1173},
+        "item_x" :{
+            "start" : 1246,
+            "end":1641},
+        "avg_x" :{
+            "start" :1651,
+            "end" : 1828},
+        "recent_x" :{
+            "start" : 1894,
+            "end" : 2044},
+        "lowest_x" :{
+            "start" : 2101,
+            "end" : 2260},
+        "remaining_list_x" :{
+            "start" : 2266,
+            "end" : 2325}
+    },
+    "2560 x 1440" :{
+        "width" : 2560,
+        "height" : 1440,
+        "name" : "1440p"
+    },
+    "1920 x 1080" :{
+        "width" : 1980,
+        "height" : 1080,
+        "name" : "1080 HD",
+        "market_y" : {
+            "start": 306,
+            "end": 870},
+        "item_x" :{
+            "start" : 608,
+            "end":887},
+        "avg_x" :{  
+            "start" :919,
+            "end" : 1040},
+        "recent_x" :{
+            "start" : 1085,
+            "end" : 1201},
+        "lowest_x" :{
+            "start" : 1244,
+            "end" : 1362},
+        "remaining_list_x" :{
+            "start" : 1407,
+            "end" : 1622}
+    },
+
+    "1280 x 720" :{
+        "width" : 1280,
+        "height" : 720,
+        "name" : "720 HD"
+    }
+}

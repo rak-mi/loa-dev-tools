@@ -6,20 +6,25 @@ import numpy as np
 import json
 import datetime
 
+def get_aution_house_prices(screenshot_path, descriptor, file_date, w, h):
 
-def get_aution_house_prices(screenshot_path, descriptor, file_date):
+    #import resoltion json from json_data
+    with open('json_data/resolution.json', 'r') as outfile:
+        resolution = json.load(outfile)
+    
+    resolutions = w + " x " + h
+    res_index = resolution[resolutions]
+
     img = cv2.imread(screenshot_path)
-    item_list = img[306:870, 608:887]
-    avg_list = img[306:870, 919:1040]
-    recent_list = img[306:870, 1085:1201]
-    lowest_list = img[306:870, 1244:1362]
-    #remaining_list = img[306:870, 1407:1622]
+    item_list = img[res_index['market_y']['start']:res_index['market_y']['end'], res_index['item_x']['start']:res_index['item_x']['end']]
+    avg_list = img[res_index['market_y']['start']:res_index['market_y']['end'], res_index['avg_x']['start']:res_index['avg_x']['end']]
+    recent_list = img[res_index['market_y']['start']:res_index['market_y']['end'], res_index['recent_x']['start']:res_index['recent_x']['end']]
+    lowest_list = img[res_index['market_y']['start']:res_index['market_y']['end'],  res_index['lowest_x']['start']:res_index['lowest_x']['end']]
 
     response = {}
 
-    
     items = get_items(item_list)
-    print(items)
+    #print(items)
     avg = get_price_list2(avg_list)
     
     recent = get_price_list2(recent_list)
@@ -92,9 +97,9 @@ def get_items(item_list):
     market_items = pytesseract.image_to_string(gray_item_list , config="--oem 3 --psm 4", lang = 'eng')
 
     #for testing, below code will show which section is being cropped
-    cv2.imshow('dilate', gray_item_list)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+    #cv2.imshow('dilate', gray_item_list)
+    #cv2.waitKey(0)
+    #cv2.destroyAllWindows()
 
 
     market_list = market_items.split('\n')
@@ -119,12 +124,12 @@ def get_price_list(price_list):
     reverse = cv2.bitwise_not(dilate_img)
 
     # for testing, below code will show which section is being cropped
-    cv2.imshow('dilate', reverse)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+    #cv2.imshow('dilate', reverse)
+    #cv2.waitKey(0)
+    #cv2.destroyAllWindows()
 
     avg_item_list = pytesseract.image_to_data(reverse , config="--oem 3 --psm 6", lang = 'eng', output_type=pytesseract.Output.DICT)
-    print (avg_item_list['text'])
+    #print (avg_item_list['text'])
     price_item_list = []
     for item in avg_item_list['text']:
         if item != '':
@@ -146,12 +151,12 @@ def get_price_list2(price_list):
     reverse = cv2.bitwise_not(dilate_img)
 
     # for testing, below code will show which section is being cropped
-    cv2.imshow('dilate', reverse)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+    #cv2.imshow('dilate', reverse)
+    #cv2.waitKey(0)
+    #cv2.destroyAllWindows()
 
     avg_item_list = pytesseract.image_to_data(reverse , config="--oem 3 --psm 6", lang = 'eng', output_type=pytesseract.Output.DICT)
-    print (avg_item_list['text'])
+    #print (avg_item_list['text'])
     price_item_list = []
     for item in avg_item_list['text']:
         if item != '':
@@ -163,7 +168,7 @@ def get_price_list2(price_list):
                 price_item_list.append(58.0)          
             else:
                 price_item_list.append(float(item.replace(',', '')))
-    print(price_item_list)
+    #print(price_item_list)
     return price_item_list
 
 def get_currency_list(price_list):

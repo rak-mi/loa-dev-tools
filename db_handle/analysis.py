@@ -24,7 +24,8 @@ def get_ah_price_from_db(db_url, name):
     results = collection.find().sort('date', -1).limit(1)
     for result in results:
         price = result['lowest_price']
-        return float(price)
+        date = result['date']
+        return (price, date)
 
 
 def get_mari_price_analysis(db_url,mari_id):
