@@ -4,7 +4,6 @@ import pytesseract
 import cv2
 import numpy as np
 import json
-import datetime
 
 def get_aution_house_prices(screenshot_path, descriptor, file_date, w, h):
 
@@ -43,7 +42,7 @@ def get_aution_house_prices(screenshot_path, descriptor, file_date, w, h):
 def get_currency_exchange(screenshot_path, descriptor, w, h):
     img = cv2.imread(screenshot_path)
 
-        #import resoltion json from json_data
+    #import resoltion json from json_data
     with open('json_data/resolution.json', 'r') as outfile:
         resolution = json.load(outfile)
 
