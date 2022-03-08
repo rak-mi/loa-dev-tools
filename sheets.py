@@ -1,8 +1,6 @@
-from datetime import date
 import gspread
-import pandas as pd
 from oauth2client.service_account import ServiceAccountCredentials
-from db_handle import analysis
+from db_handle import mongdb
 import json
 import configparser
 
@@ -28,7 +26,7 @@ sheet = client.open('Azena - Lost Ark - Gold vs Crystals')
 sheet_instance = sheet.get_worksheet(0)
 
 #get currency price
-currency_price = analysis.get_currency_exchange_from_db(db_url)
+currency_price = mongdb.get_currency_exchange_from_db(db_url)
 sheet_instance.update_cell(18,14, str(int(currency_price['exchange_rate'])))
 date_time = currency_price['date'].split('-')
 datea = date_time[0][2:4] + '/' + date_time[0][:2] + '/' + date_time[0][4:]
@@ -45,7 +43,7 @@ date_time_list = []
 for tier in sheet_positions:
     for item_name in sheet_positions[tier]:
         #get the item price and update sheet
-        date_price = analysis.get_ah_price_from_db(db_url, item_name)
+        date_price = mongdb.get_ah_price_from_db(db_url, item_name)
         sheet_location = sheet_positions[tier][item_name]
         sheet_instance.update_cell(sheet_location,4, str(int(date_price[0])))
 
