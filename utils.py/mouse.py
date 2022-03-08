@@ -1,6 +1,22 @@
-from screen_scrape import auto_utils
-
+import win32gui
+from pynput.mouse import Button, Controller
 import argparse
+
+def move_mouse(x,y):
+
+    hwnd = win32gui.FindWindowEx(0,0,0, "LOST ARK (64-bit, DX11) v.2.0.3.1")
+    win32gui.SetForegroundWindow(hwnd)
+    pos_x = int(x)
+    pos_y = int(y)
+
+    mouse = Controller()
+
+    mouse.position = (pos_x, pos_y)
+
+    # Press and release
+    mouse.press(Button.left)
+    mouse.release(Button.left)
+
 
 parser = argparse.ArgumentParser(description='nah')
 
@@ -13,4 +29,4 @@ parser.add_argument('y', metavar='p', type=str,
 
 args = parser.parse_args()
 
-auto_utils.move_mouse(args.x, args.y)
+move_mouse(args.x, args.y)
