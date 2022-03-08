@@ -1,10 +1,6 @@
-from locale import currency
-from pprint import PrettyPrinter
-from screen_scrape import scrape, auto_utils
-from db_handle import analysis, mongdb
-import json
+from screen_scrape import scrape
+from db_handle import mongdb
 import configparser
-import datetime
 import glob
 import argparse
 

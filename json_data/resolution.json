@@ -20,7 +20,13 @@
             "end" : 2260},
         "remaining_list_x" :{
             "start" : 2266,
-            "end" : 2325}
+            "end" : 2325},
+        "currency_x" :{
+                "start" : 1896,
+                "end" : 1972},
+        "currency_y" :{
+            "start" : 403,
+            "end" : 743}
     },
     "2560 x 1440" :{
         "width" : 2560,

@@ -2,7 +2,6 @@ import pymongo
 import datetime
 
 def upload_market_to_db(market_data, db_url, date_time):
-
     client = pymongo.MongoClient(db_url)
     db=client.market_data
 
@@ -25,7 +24,6 @@ def upload_market_to_db(market_data, db_url, date_time):
 
 def upload_currency_to_db(currency_data, db_url, date_time):
     client = pymongo.MongoClient(db_url)
-
     db=client.mari_shop
 
     #get iso and epoch time for front end
@@ -43,9 +41,11 @@ def upload_currency_to_db(currency_data, db_url, date_time):
 
     client.close()
 
+#Get currency exchange price from db
 def get_currency_exchange_from_db(db_url):
     client = pymongo.MongoClient(db_url)
     db = client.mari_shop
+
     collection = db['currency_exchange']
     results = collection.find().sort('date', -1).limit(1)
     for result in results:
@@ -53,9 +53,11 @@ def get_currency_exchange_from_db(db_url):
 
     client.close()
 
+#Get auction house prices from db
 def get_ah_price_from_db(db_url, name):
     client = pymongo.MongoClient(db_url)
     db = client.market_data
+
     collection = db[name]
     results = collection.find().sort('date', -1).limit(1)
     for result in results:
