@@ -1,6 +1,6 @@
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
-from db_handle import mongdb
+from db_handle import mongdb, get_data
 import json
 import configparser
 import datetime
@@ -27,7 +27,7 @@ sheet = client.open('Azena - Lost Ark - Gold vs Crystals')
 sheet_instance = sheet.get_worksheet(0)
 
 #get currency price
-currency_price = mongdb.get_currency_exchange_from_db(db_url)
+currency_price = get_data.get_currency_exchange_from_db()
 sheet_instance.update_cell(18,14, str(int(currency_price['exchange_rate'])))
 
 epoch = currency_price['epoch']
@@ -50,7 +50,7 @@ date_time_list = []
 for tier in sheet_positions:
     for item_name in sheet_positions[tier]:
         #get the item price and update sheet
-        result = mongdb.get_ah_price_from_db(db_url, item_name)
+        result = get_data.get_ah_price_from_db('honing_items', item_name)
         sheet_location = sheet_positions[tier][item_name]
         sheet_instance.update_cell(sheet_location,4, str(int(result['lowest_price'])))
 
