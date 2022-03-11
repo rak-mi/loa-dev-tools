@@ -2,6 +2,7 @@ import firebase_admin
 from firebase_admin import credentials, firestore
 import datetime
 import json
+import time
 
 cred = credentials.Certificate("secret.json")
 app = firebase_admin.initialize_app(cred)
@@ -27,3 +28,13 @@ def upload_currency_to_db(currency_data, db_url, date_time):
     data = {'date': date_time, 'iso_date' : iso_date, 'epoch' : epoch_time, 'exchange_rate': currency_data}
     db.collection(u'market').document(u'currency_exchange').collection('Prices').document(str(date_time)).set(data)
     print("Updated " + str('currency_exchange'))
+
+def make_scrape_log():
+    t = int(time.time())
+    data = {u'timestamp': firestore.SERVER_TIMESTAMP, u'status': 'SUCCESS'}
+    db.collection(u'scrape_logs').document(str(t)).set(data)
+    print('Logged', data)
+
+def make_market_summary(data):
+    t = int(time.time())
+    db.collection(u'market_summary').document(str(t)).set(data)

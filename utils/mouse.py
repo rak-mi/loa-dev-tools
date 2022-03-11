@@ -4,7 +4,7 @@ import argparse
 
 def move_mouse(x,y):
 
-    hwnd = win32gui.FindWindowEx(0,0,0, "LOST ARK (64-bit, DX11) v.2.0.3.1")
+    hwnd = win32gui.FindWindowEx(0,0,0, "LOST ARK (64-bit, DX11) v.2.1.0.1")
     win32gui.SetForegroundWindow(hwnd)
     pos_x = int(x)
     pos_y = int(y)

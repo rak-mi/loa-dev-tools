@@ -5,6 +5,13 @@ import cv2
 import numpy as np
 import json
 
+def prepare_data_summary(data):
+    summary_data = {}
+    for item, value in data.items():
+        summary_data[item] = {}
+        summary_data[item] = value['Recent Price']
+    return summary_data
+
 def get_aution_house_prices(screenshot_path, descriptor, file_date, w, h):
 
     #import resoltion json from json_data
@@ -61,6 +68,11 @@ def get_items(item_list):
     #image magic to manipulate the image to be easier for tesseract to read
     inv_item_list = cv2.bitwise_not(item_list)
     gray_item_list = cv2.cvtColor(inv_item_list, cv2.COLOR_BGR2GRAY)
+    #gray_item_list = inv_item_list
+
+    #cv2.imshow('dilate', gray_item_list)
+    #cv2.waitKey(0)
+    #cv2.destroyAllWindows()
     
     #get the readable list of items
     market_items = pytesseract.image_to_string(gray_item_list , config="--oem 3 --psm 4", lang = 'eng')
@@ -78,6 +90,7 @@ def get_items(item_list):
             index += 1
             item_list.append(item)
 
+    #print(item_list)
     return item_list
 
 def get_price_list(price_list, dilate1, dilate2):
@@ -86,6 +99,10 @@ def get_price_list(price_list, dilate1, dilate2):
     kernel = np.ones((dilate1, dilate2), 'uint8')
     dilate_img = cv2.dilate(gray, kernel, iterations=1)
     reverse = cv2.bitwise_not(dilate_img)
+
+    #cv2.imshow('dilate', reverse)
+    #cv2.waitKey(0)
+    #cv2.destroyAllWindows()
 
     #get the average price of the item
     item_list = pytesseract.image_to_data(reverse , config="--oem 3 --psm 6", lang = 'eng', output_type=pytesseract.Output.DICT)
