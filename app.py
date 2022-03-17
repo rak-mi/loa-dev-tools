@@ -26,6 +26,8 @@ if args.db != 'mongodb' and args.db != 'firebase':
 #list of screenshots to process
 enhancement_file_list = glob.glob("screenshots\\market\\*.png")
 
+debugMode = False
+
 # FOR TESTING (?)
 #enhancement_file_list = glob.glob("screenshots\\market\\*.jpg")
 
@@ -40,12 +42,8 @@ if args.mode == 'market':
             response = scrape.get_aution_house_prices(enhancement_file, enhancement, date_time, args.width, args.height)
             data_summary = scrape.prepare_data_summary(response)
             all_data_summary = all_data_summary | data_summary
-            print('response: ', response)
-            if args.db == 'mongodb':
-                print('lets pretend mongodb')
-                #mongdb.upload_market_to_db(response, db_url, date_time)
-            if args.db == 'firebase':
-                firebasedb.upload_market_to_db(response, 'honing_items', date_time)
+            if debugMode == False:
+                mongdb.upload_market_to_db(response, db_url, date_time)
 
         except Exception as e:
             print("Error processing screenshot: ", enhancement_file)
@@ -53,15 +51,16 @@ if args.mode == 'market':
             continue
     
     print('done')
-    print('all_data_summary:', all_data_summary)
-    # TODO: 
-    # Make an entry in firebase with all data summary to use for mari shop
-    #if args.db == 'firebase':
-    #    firebasedb.make_market_summary(all_data_summary)
+    
+    # Updating the market summary
+    if debugMode == False:
+        mongdb.update_db_summary(all_data_summary, db_url)
 
     # Make an entry in firebase to record the last write on the database (possibly the webhook for discord bot)
-    if args.db == 'firebase':
+    print('firebase log')
+    if debugMode == False:
         firebasedb.make_scrape_log()
+        
 
 #get information from currency exchange
 elif args.mode == 'currency':

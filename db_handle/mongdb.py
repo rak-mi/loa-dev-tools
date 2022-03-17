@@ -12,7 +12,7 @@ def upload_market_to_db(market_data, db_url, date_time):
         epoch_time = iso_date.timestamp()
 
         collection = db[item]
-        data = {'_id': date_time, 'date': date_time, 'iso_date' : iso_date, 'epoch' : epoch_time, 'avg_price': market_data[item]['Average Price'], 'recent_price': market_data[item]['Recent Price'], 'lowest_price': market_data[item]['Lowest Price'], 'remaining_items': market_data[item]['Remaining Items']}
+        data = {'_id': date_time, 'date': date_time, 'iso_date' : iso_date, 'epoch' : epoch_time, 'recent_price': market_data[item]['Recent Price'], 'lowest_price': market_data[item]['Lowest Price'], 'remaining_items': market_data[item]['Remaining Items']}
         result=collection.update_one({'_id': date_time}, {'$set': data}, upsert=True)
 
         if hasattr(result,'inserted_id'):
@@ -21,6 +21,18 @@ def upload_market_to_db(market_data, db_url, date_time):
             print("Updated " + str(item))
 
     client.close()
+
+def update_db_summary(summary_data, db_url):
+    client = pymongo.MongoClient(db_url)
+    db=client.market_data
+
+    collection = db['Market Summary']
+    result = collection.update_one({'_id': 1}, {'$set': summary_data}, upsert=True)
+
+    if hasattr(result,'inserted_id'):
+        print("Inserted the document", result.inserted_id)
+    else:
+        print("Updated Summary")
 
 def upload_currency_to_db(currency_data, db_url, date_time):
     client = pymongo.MongoClient(db_url)

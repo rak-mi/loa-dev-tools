@@ -30,17 +30,21 @@ def get_aution_house_prices(screenshot_path, descriptor, file_date, w, h):
     response = {}
 
     items = get_items(item_list)
-    avg = get_price_list(avg_list, 3, 2)
+    #avg = get_price_list(avg_list, 3, 2)
     recent = get_price_list(recent_list, 3, 2)
     low = get_price_list(lowest_list, 3, 2)
-
+    
     index = 0
     for item in items:
-        if avg[index] == None or recent[index] == None or low[index] == None:
+        if recent[index] == None or low[index] == None:
             index += 1
             continue
+        #print('adding item: ', item)
+        #print('avarage price: ', avg[index])
+        #print('recent price:', recent[index])
+        #print('lowest price:', low[index])
         response[item] = {}
-        response[item]['Average Price'] = avg[index]
+        #response[item]['Average Price'] = avg[index]
         response[item]['Recent Price'] = recent[index]
         response[item]['Lowest Price'] = low[index]
         response[item]['Remaining Items'] = 100 #hard coded for now
@@ -82,20 +86,32 @@ def get_items(item_list):
     index = -1
     #slight hardcoding on the items
     for item in market_list:
+        print('item name?', item)
         if item == '\x0c' or item.isspace() or item == '':
             pass
         elif item == '[Sold in bundles of 10 units]':
             item_list[index] = item_list[index] + ' (10)'
         else:
             index += 1
+            if item == 'ar\'s Breath':
+                item = 'Star\'s Breath'
             item_list.append(item)
 
-    #print(item_list)
+    print('item_list:', item_list)
     return item_list
 
 def get_price_list(price_list, dilate1, dilate2):
+    # Stretching the image a bit to improve ocr results
+    img = price_list
+    width = int(img.shape[1] + 35)
+    height = int(img.shape[0])
+    dim = (width, height)
+
+    # resize image
+    resized = cv2.resize(img, dim, interpolation = cv2.INTER_AREA)
+
     #image magic to manipulate the image to be easier for tesseract to read
-    gray = cv2.cvtColor(price_list, cv2.COLOR_BGR2GRAY)
+    gray = cv2.cvtColor(resized, cv2.COLOR_BGR2GRAY)
     kernel = np.ones((dilate1, dilate2), 'uint8')
     dilate_img = cv2.dilate(gray, kernel, iterations=1)
     reverse = cv2.bitwise_not(dilate_img)
@@ -110,6 +126,7 @@ def get_price_list(price_list, dilate1, dilate2):
     price_item_list = []
     #some hardcoding on false positives
     for item in item_list['text']:
+        #print(item)
         if item != '':
             if item == 'i' or item == 'I':
                 price_item_list.append(1.0)
